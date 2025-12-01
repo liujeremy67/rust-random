@@ -22,6 +22,16 @@ impl<T> LinkedList<T> {
     }
 }
 
+// get front
+impl<T> LinkedList<T> {
+    pub fn get(&self) -> Option<&T>{ // list, val not modified (no mut)
+        match self.head.as_ref() {
+            Some(node) => Some(&node.val),
+            None => None,
+        }   
+    }
+}
+
 // push front
 // Some part of Option (the first T enum)
 // req since we defined it as Link, which is Option
@@ -42,5 +52,28 @@ impl<T> LinkedList<T> {
         } else {
             None
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_works() {
+        let mut list = LinkedList::new();
+        assert_eq!(list.get(), None);
+
+        list.push(10);
+        assert_eq!(list.get(), Some(&10));
+
+        list.push(20);
+        assert_eq!(list.get(), Some(&20));
+
+        assert_eq!(list.pop(), Some(20));
+        assert_eq!(list.get(), Some(&10));
+
+        assert_eq!(list.pop(), Some(10));
+        assert_eq!(list.get(), None);
     }
 }
